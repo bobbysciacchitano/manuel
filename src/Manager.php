@@ -33,7 +33,7 @@ class Manager {
      *
      * @return array
      */
-    public function build()
+    public function translate()
     {
         $resource = $this->resource->create($this->serializer);
 

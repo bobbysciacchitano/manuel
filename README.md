@@ -54,12 +54,12 @@ use App\Transformer;
 // Serialize a object
 $manager = new Manager(new Resource\Item($data, new Transfomer\MyTransformer, 'item'), new JsonAPISerializer);
 
-$translated = $manager->build();
+$translated = $manager->translate();
 
 // Serialize an array or collection of objects
 $manager = new Manager(new Resource\Collection($array, new Transfomer\MyTransformer, 'item'), new JsonAPISerializer);
 
-$translated = $manager->build();
+$translated = $manager->translate();
 ```
 
 #### Relationships
