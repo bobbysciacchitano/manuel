@@ -1,0 +1,24 @@
+<?php namespace Manuel\Resource;
+
+use Manuel\Serializer\SerializerAbstract;
+
+class Collection extends ResourceAbstract {
+
+    /**
+     * @inheritdoc
+     */
+    public function create(SerializerAbstract $serializer)
+    {
+        $resources = array();
+
+        foreach ($this->data as $data) {
+
+            $resource = new Item($data, $this->transformer, $this->resourceKey);
+
+            $resources[] = $resource->create($serializer);
+        }
+
+        return $resources;
+    }
+
+}

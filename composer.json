@@ -1,0 +1,16 @@
+{
+    "name": "bobbysciacchitano/manuel",
+    "description": "A simple object serializer for PHP which supports flexible document structures.",
+    "keywords": ["JsonAPI", "transformer", "serializer", "formatted", "json", "encoder"],
+	"homepage": "https://github.com/bobbysciacchitano/manuel",
+    "license": "MIT",
+	"type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Manuel\\": "src/"
+        }
+    }
+}
