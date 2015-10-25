@@ -21,8 +21,14 @@ class JsonAPISerializer extends SerializerAbstract {
 
         unset($resource['attributes']['id']);
 
-        foreach ($transformer->getRelationships() as $key => $attribute) {
-            unset($resource['attributes'][$attribute]);
+        if ($transformer->getRelationships()) {
+            $resource['relationships'] = array();
+
+            foreach ($transformer->getRelationships() as $attribute) {
+                $resource['relationships'][$attribute] = $this->createEmbeddedRelationship($data, $attribute);
+
+                unset($resource['attributes'][$attribute]);
+            }
         }
 
         return $resource;
@@ -32,28 +38,17 @@ class JsonAPISerializer extends SerializerAbstract {
      *
      *
      * @param array $data
-     * @param array $includes
-     * @param TransformerAbstract $transformer
+     * @param string $attribute
      * @return array
      */
-    public function embedded(array $data, array $includes = null, TransformerAbstract $transformer)
+    public function createEmbeddedRelationship($data, $attribute)
     {
-        $relationships = array();
-
-        if (!$transformer->getRelationships()) {
-            return array();
-        }
-
-        foreach ($transformer->getRelationships() as $key => $attribute) {
-          if (array_key_exists($attribute, $data)) {
-            $relationships[$attribute] = array(
+        return array(
+            'data' => array(
                 'id'   => $data[$attribute],
-                'type' => $key ? $key : $attribute
-            );
-          }
-        }
-
-        return array('relationships' => $relationships);
+                'type' => $attribute
+            )
+        );
     }
 
     /**
