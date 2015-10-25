@@ -25,7 +25,12 @@ class MyTransformer extends TransformerAbstract {
     /**
      * @var array
      */
-    protected $relationships = [ 'business' => 'organisation' ];
+    protected $relationships = [ 'organisation' ];
+
+    /**
+     * @var array
+     */
+    protected $linkedResources = [ 'tasks' ];
 
     /**
      * Transform object properties.
@@ -42,6 +47,17 @@ class MyTransformer extends TransformerAbstract {
             'active'       => (bool) $myObject->is_active,
             'organisation' => (int) $myObject->organisation_id
         );
+    }
+
+    /**
+     * Create link to external resource.
+     *
+     * @param TheObject $myObject
+     * @return Link
+     */
+    public function linkedTasks(TheObject $myObject)
+    {
+        return "/customer/{$myObject->id}/tasks";
     }
 
 }
@@ -78,10 +94,15 @@ The above transformer with the Json API serializer will generate the following r
             "active": true
         },
         "relationships": {
-            "business": {
+            "organisation": {
                 "data": {
                     "id": 5,
                     "type": "organisation"
+                }
+            },
+            "tasks": {
+                "links": {
+                    "related": "/customer/1/tasks"
                 }
             }
         }
@@ -91,17 +112,21 @@ The above transformer with the Json API serializer will generate the following r
 
 #### Associations
 
-Manuel can handle an assortment of association types. It is the responsibility of the serializer to translate the relationship into the correct format.
+Manuel can handle an variety of association types. It is the responsibility of the serializer to translate the relationship into the correct format.
 
 **Simple Relationship**
 
-This type supports returning a speciifc value and translating it to another attribute name. In the example above the attribute ```organisation``` will be transformed the attribute ```business```. This is useful for representing relationships which may be loaded async.
+This type supports registering a property on the transformed object as a resource which can be used as part of translation later on. In the above example, the ```organisation``` attribute is used to create a relationship of organisation to customer.
+
+If the relationship is an array, Manuel will iterate and return as required.
+
+**Linked Resources**
+
+Linked resources can create a URI reference to a relationship or complex data set. To create a linked resource, add the resource to the ```$linkedResources``` array then creating a method starting with ```linked``` which will return a string containing the link.
 
 #### Work in progress
 
-* Sideloaded includes
-* Embedded includes
-* Link relationships representation
-* Improve documentation
 * Unit tests
-* License
+* Embedded includes
+* Sideloaded includes
+* Improve documentation

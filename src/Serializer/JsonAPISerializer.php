@@ -5,11 +5,7 @@ use Manuel\Transformer\TransformerAbstract;
 class JsonAPISerializer extends SerializerAbstract {
 
     /**
-     *
-     *
-     * @param array $data
-     * @param TransformerAbstract $transformer
-     * @return array
+     * @inheritdoc
      */
     public function item(array $data, TransformerAbstract $transformer)
     {
@@ -21,42 +17,27 @@ class JsonAPISerializer extends SerializerAbstract {
 
         unset($resource['attributes']['id']);
 
-        if ($transformer->getRelationships()) {
-            $resource['relationships'] = array();
-
-            foreach ($transformer->getRelationships() as $attribute) {
-                $resource['relationships'][$attribute] = $this->createEmbeddedRelationship($data, $attribute);
-
-                unset($resource['attributes'][$attribute]);
-            }
+        foreach ($transformer->getRelationships() as $relationship) {
+            unset($resource['attributes'][$relationship]);
         }
 
         return $resource;
     }
 
     /**
-     *
-     *
-     * @param array $data
-     * @param string $attribute
-     * @return array
+     * @inheritdoc
      */
-    public function createEmbeddedRelationship($data, $attribute)
+    public function embedded(array $resources, TransformerAbstract $transformer)
     {
-        return array(
-            'data' => array(
-                'id'   => $data[$attribute],
-                'type' => $attribute
-            )
-        );
+        if (!$resources) {
+            return array();
+        }
+
+        return ['relationships' => $resources];
     }
 
     /**
-     *
-     *
-     * @param array $data
-     * @param array $includes
-     * @return array
+     * @inheritdoc
      */
     public function payload(array $data, array $includes = null)
     {

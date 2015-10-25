@@ -20,6 +20,11 @@ abstract class TransformerAbstract {
     /**
      * @var array
      */
+    protected $linkedResources = array();
+
+    /**
+     * @var array
+     */
     protected $embeddedResources = array();
 
     /**
@@ -55,6 +60,16 @@ abstract class TransformerAbstract {
     public function getRelationships()
     {
         return $this->relationships;
+    }
+
+    /**
+     *
+     *
+     * @return array
+     */
+    public function getLinkedResources()
+    {
+        return $this->linkedResources;
     }
 
 }

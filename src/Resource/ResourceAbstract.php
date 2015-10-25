@@ -74,9 +74,16 @@ abstract class ResourceAbstract {
      */
     public function create(SerializerAbstract $serializer)
     {
-        $transformed = $serializer->item($this->transformer->transform($this->getData()), $this->transformer);
+        // Transform raw data into correct format/s
+        $transformed = $this->transformer->transform($this->data);
 
-        return array_merge($transformed, $serializer->embedded($transformed, array(), $this->transformer));
+        // Convert into final resource object
+        $resource = $serializer->item($transformed, $this->transformer);
+
+        // Pull embedded relationships into the correct format
+        $embedded = $serializer->embedded(array(), $this->transformer);
+
+        return array_merge($resource, $embedded);
     }
 
 }

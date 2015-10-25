@@ -36,14 +36,13 @@ class SerializerAbstract {
     /**
      *
      *
-     * @param array $data
-     * @param array $includes
+     * @param array $resources
      * @param TransformerAbstract $transformer
      * @return array
      */
-    public function embedded(array $data, array $includes = null, TransformerAbstract $transformer)
+    public function embedded(array $resources, TransformerAbstract $transformer)
     {
-        return array_merge($data, $includes);
+        return $resources;
     }
 
     /**
