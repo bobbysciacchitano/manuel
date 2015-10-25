@@ -18,6 +18,11 @@ use Manuel\Transformer\TransformerAbstract;
 class MyTransformer extends TransformerAbstract {
 
     /**
+     * @var string
+     */
+    protected $type = 'customer';
+
+    /**
      * @var array
      */
     protected $relationships = [ 'business' => 'organisation' ];
@@ -42,7 +47,7 @@ class MyTransformer extends TransformerAbstract {
 }
 ```
 
-To serialize your data into a resource, you can wrap it in a Resource object. Wrapping the data into in a Resource tells Manuel whether you want to return a collection or a single resource.
+To serialize your data into a resource, you can wrap it in a Resource object. Wrapping the data into in a Resource tells Manuel whether you want to return a collection or a single resource. You can also declare your own resource types.
 
 ```php
 <?php
@@ -51,28 +56,52 @@ use Manuel\Manager;
 use Manuel\Resource;
 use App\Transformer;
 
-// Serialize a object
-$manager = new Manager(new Resource\Item($data, new Transfomer\MyTransformer, 'item'), new JsonAPISerializer);
+$manager = new Manager(new JsonAPISerializer);
 
-$translated = $manager->translate();
+// Serialize a object
+$translated = $manager->translate(new Resource\Item($data, new Transfomer\MyTransformer));
 
 // Serialize an array or collection of objects
-$manager = new Manager(new Resource\Collection($array, new Transfomer\MyTransformer, 'item'), new JsonAPISerializer);
-
-$translated = $manager->translate();
+$translated = $manager->translate(new Resource\Collection($array, new Transfomer\MyTransformer));
 ```
 
-#### Relationships
+The above transformer with the Json API serializer will generate the following representation:
 
-Currently, Manuel can only translate relationships which do not need to be sidedloaded or embedded. This is useful for APIs that have large or expensive relationships that may not needed to be always loaded.
+```json
+{
+    "data": {
+        "id": 1,
+        "type": "customer",
+        "attributes": {
+            "name": "Johnny",
+            "email": "johnny@test.com",
+            "active": true
+        },
+        "relationships": {
+            "business": {
+                "data": {
+                    "id": 5,
+                    "type": "organisation"
+                }
+            }
+        }
+    }
+}
+```
 
-In the transformer above, this is represented by the ```$relationships``` property. The selected serializer will then transform properties which have been identified as a simple relationships into the appropriate format.
+#### Associations
+
+Manuel can handle an assortment of association types. It is the responsibility of the serializer to translate the relationship into the correct format.
+
+**Simple Relationship**
+
+This type supports returning a speciifc value and translating it to another attribute name. In the example above the attribute ```organisation``` will be transformed the attribute ```business```. This is useful for representing relationships which may be loaded async.
 
 #### Work in progress
 
 * Sideloaded includes
 * Embedded includes
 * Link relationships representation
-* Improved documentation
+* Improve documentation
 * Unit tests
 * License

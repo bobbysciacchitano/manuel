@@ -6,11 +6,6 @@ use Manuel\Serializer\SerializerAbstract;
 class Manager {
 
     /**
-     * @var ResourceAbstract
-     */
-    protected $resource;
-
-    /**
      * @var SerializerAbstract
      */
     protected $serializer;
@@ -21,21 +16,20 @@ class Manager {
      * @param ResourceAbstract $resource
      * @param SerializerAbstract $serializer
      */
-    public function __construct(ResourceAbstract $resource, SerializerAbstract $serializer)
+    public function __construct(SerializerAbstract $serializer)
     {
-        $this->resource   = $resource;
-
         $this->serializer = $serializer;
     }
 
     /**
      *
      *
+     * @param ResourceAbstract $resource
      * @return array
      */
-    public function translate()
+    public function translate(ResourceAbstract $resource)
     {
-        $resource = $this->resource->create($this->serializer);
+        $resource = $resource->create($this->serializer);
 
         return $this->serializer->payload($resource);
     }
