@@ -38,10 +38,17 @@ class JsonAPISerializer extends SerializerAbstract {
      */
     public function simple($data, $resourceKey = null)
     {
-        return array('data' => array(
-            'id'   => $data,
-            'type' => $resourceKey
-        ));
+        if (is_array($data)) {
+            $resources = array();
+
+            foreach ($data as $resource) {
+                $resources[] = array('id' => $resource, 'type' => $resourceKey);
+            }
+
+            return array('data' => $resources);
+        } else {
+            return array('data' => array('id' => $data, 'type' => $resourceKey));
+        }
     }
 
     /**
