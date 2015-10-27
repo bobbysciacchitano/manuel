@@ -72,11 +72,11 @@ class ResourceBag {
     {
         $resources = array();
 
-        foreach ($this->transformer->getRelationships() as $relationship) {
+        foreach ($this->transformer->getRelationships() as $key => $resource) {
 
-            $methodName = $this->camelizeString('relationship', $relationship);
+            $methodName = $this->camelizeString('relationship', $key ? $key : $resource);
 
-            $resources[$relationship] = $this->serializer->simple($this->transformer->{$methodName}($this->data), $relationship);
+            $resources[$key ? $key : $resource] = $this->serializer->simple($this->transformer->{$methodName}($this->data), $resource);
         }
 
         return $resources;
@@ -103,11 +103,11 @@ class ResourceBag {
     {
         $resources = array();
 
-        foreach ($this->transformer->getLinkedResources() as $resource) {
+        foreach ($this->transformer->getLinkedResources() as $key => $resource) {
 
             $methodName = $this->camelizeString('linked', $resource);
 
-            $resources[$resource] = $this->serializer->link($this->transformer->{$methodName}($this->data), $resource);
+            $resources[$key ? $key : $resource] = $this->serializer->link($this->transformer->{$methodName}($this->data), $resource);
         }
 
         return $resources;
@@ -122,7 +122,7 @@ class ResourceBag {
      */
     private function camelizeString($type, $resource)
     {
-        return $type . ucfirst($resource);
+        return $type . implode('', array_map('ucfirst', array_map('strtolower', explode('-', $resource))));
     }
 
 }
