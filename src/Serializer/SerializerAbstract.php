@@ -1,6 +1,7 @@
 <?php namespace Manuel\Serializer;
 
 use Manuel\Transformer\TransformerAbstract;
+use Manuel\Helper\ResourceBag;
 
 class SerializerAbstract {
 
@@ -36,13 +37,50 @@ class SerializerAbstract {
     /**
      *
      *
-     * @param array $resources
+     * @param string $data
      * @param TransformerAbstract $transformer
      * @return array
      */
-    public function embedded(array $resources, TransformerAbstract $transformer)
+    public function link(array $data, TransformerAbstract $transformer)
     {
-        return $resources;
+        return $data;
+    }
+
+    /**
+     *
+     *
+     * @param string $data
+     * @param TransformerAbstract $transformer
+     * @return array
+     */
+    public function simple(array $data, TransformerAbstract $transformer)
+    {
+        return $data;
+    }
+
+    /**
+     *
+     *
+     * @param ResourceBag $resourceBag
+     * @param TransformerAbstract $transformer
+     * @return array
+     */
+    public function embedded(ResourceBag $resourceBag, TransformerAbstract $transformer)
+    {
+        if (!$resourceBag) {
+            return array();
+        }
+
+        $embedded = array_merge(
+            $resourceBag->fetchSimple(),
+            $resourceBag->fetchEmbedded()
+        );
+
+        if ($resourceBag->containsLinks()) {
+            $embedded['links'] = $resourceBag->fetchLinks();
+        }
+
+        return $embedded;
     }
 
     /**

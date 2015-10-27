@@ -1,5 +1,6 @@
 <?php namespace Manuel\Resource;
 
+use Manuel\Helper\ResourceBag;
 use Manuel\Serializer\SerializerAbstract;
 use Manuel\Transformer\TransformerAbstract;
 
@@ -80,8 +81,11 @@ abstract class ResourceAbstract {
         // Convert into final resource object
         $resource = $serializer->item($transformed, $this->transformer);
 
+        $resourceBag = new ResourceBag($this->data, $this->transformer, $this->serializer);
+        $resourceBag->create();
+
         // Pull embedded relationships into the correct format
-        $embedded = $serializer->embedded(array(), $this->transformer);
+        $embedded = $serializer->embedded($resourceBag, $this->transformer);
 
         return array_merge($resource, $embedded);
     }
