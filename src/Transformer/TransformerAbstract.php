@@ -23,16 +23,6 @@ abstract class TransformerAbstract {
     protected $linkedResources = array();
 
     /**
-     * @var array
-     */
-    protected $embeddedResources = array();
-
-    /**
-     * @var array
-     */
-    protected $includedResources = array();
-
-    /**
      *
      *
      * @return string

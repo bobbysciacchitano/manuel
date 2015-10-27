@@ -1,6 +1,7 @@
 <?php namespace Manuel\Serializer;
 
 use Manuel\Transformer\TransformerAbstract;
+use Manuel\Helper\ResourceBag;
 
 class JsonAPISerializer extends SerializerAbstract {
 
@@ -27,13 +28,39 @@ class JsonAPISerializer extends SerializerAbstract {
     /**
      * @inheritdoc
      */
-    public function embedded(array $resources, TransformerAbstract $transformer)
+    public function link($data, $resourceKey = null)
     {
-        if (!$resources) {
+        return array('links' => array('related' => $data));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function simple($data, $resourceKey = null)
+    {
+        return array('data' => array(
+            'id'   => $data,
+            'type' => $resourceKey
+        ));
+    }
+
+    /**
+     *
+     *
+     * @param ResourceBag $resourceBag
+     * @param TransformerAbstract $transformer
+     * @return array
+     */
+    public function embedded(ResourceBag $resourceBag, TransformerAbstract $transformer)
+    {
+        if (!$resourceBag->containsRelationships()) {
             return array();
         }
 
-        return ['relationships' => $resources];
+        return array('relationships' => array_merge(
+            $resourceBag->fetchSimple(),
+            $resourceBag->fetchLinks()
+        ));
     }
 
     /**
@@ -41,7 +68,7 @@ class JsonAPISerializer extends SerializerAbstract {
      */
     public function payload(array $data, array $includes = null)
     {
-        return array( 'data' => $data );
+        return array('data' => $data);
     }
 
 }

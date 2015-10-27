@@ -38,10 +38,10 @@ class SerializerAbstract {
      *
      *
      * @param string $data
-     * @param TransformerAbstract $transformer
+     * @param string $resourceKey
      * @return array
      */
-    public function link(array $data, TransformerAbstract $transformer)
+    public function link($data, $resourceKey = null)
     {
         return $data;
     }
@@ -50,10 +50,10 @@ class SerializerAbstract {
      *
      *
      * @param string $data
-     * @param TransformerAbstract $transformer
+     * @param string $resourceKey
      * @return array
      */
-    public function simple(array $data, TransformerAbstract $transformer)
+    public function simple($data, $resourceKey = null)
     {
         return $data;
     }
@@ -67,13 +67,12 @@ class SerializerAbstract {
      */
     public function embedded(ResourceBag $resourceBag, TransformerAbstract $transformer)
     {
-        if (!$resourceBag) {
+        if (!$resourceBag->containsRelationships()) {
             return array();
         }
 
         $embedded = array_merge(
-            $resourceBag->fetchSimple(),
-            $resourceBag->fetchEmbedded()
+            $resourceBag->fetchSimple()
         );
 
         if ($resourceBag->containsLinks()) {

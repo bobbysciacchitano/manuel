@@ -44,8 +44,7 @@ class MyTransformer extends TransformerAbstract {
             'id'           => (int) $myObject->id,
             'name'         => $myObject->name,
             'email'        => $myObject->email,
-            'active'       => (bool) $myObject->is_active,
-            'organisation' => (int) $myObject->organisation_id
+            'active'       => (bool) $myObject->is_active
         );
     }
 
@@ -58,6 +57,17 @@ class MyTransformer extends TransformerAbstract {
     public function linkedTasks(TheObject $myObject)
     {
         return "/customer/{$myObject->id}/tasks";
+    }
+
+    /**
+     * Create a simple resource.
+     *
+     * @param TheObject $myObject
+     * @return integer
+     */
+    public function relationshipOrganisation(TheObject $myObject)
+    {
+        return (int) $myObject->organisation_id;
     }
 
 }
@@ -116,17 +126,20 @@ Manuel can handle an variety of association types. It is the responsibility of t
 
 **Simple Relationship**
 
-This type supports registering a property on the transformed object as a resource which can be used as part of translation later on. In the above example, the ```organisation``` attribute is used to create a relationship of organisation to customer.
-
-If the relationship is an array, Manuel will iterate and return as required.
+Simple relationships can be used to contrive additional data or return a simple value. When used with the JsonAPI serializer, this type of resource relationship can be used to declare a reference to an object that is not embedded or side-loaded.
 
 **Linked Resources**
 
-Linked resources can create a URI reference to a relationship or complex data set. To create a linked resource, add the resource to the ```$linkedResources``` array then creating a method starting with ```linked``` which will return a string containing the link.
+Much like simple relationships, this type of resource can be used to create a link reference to another resource that can be loaded from the API.
+
+#### Serializers
+
+Manuel out of the box includes a basic implementation of the JsonAPI serializer. Work is in progress to make this a first-class implementation of the JsonAPI specification.
 
 #### Work in progress
 
 * Unit tests
 * Embedded includes
+* Ember Serializer
 * Sideloaded includes
 * Improve documentation
