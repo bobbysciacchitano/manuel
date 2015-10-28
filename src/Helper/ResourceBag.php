@@ -74,9 +74,9 @@ class ResourceBag {
 
         foreach ($this->transformer->getRelationships() as $key => $resource) {
 
-            $methodName = $this->camelizeString('relationship', $key ? $key : $resource);
+            $methodName = $this->camelizeString('relationship', !is_numeric($key) ? $key : $resource);
 
-            $resources[$key ? $key : $resource] = $this->serializer->simple($this->transformer->{$methodName}($this->data), $resource);
+            $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->simple($this->transformer->{$methodName}($this->data), $resource);
         }
 
         return $resources;
@@ -107,7 +107,7 @@ class ResourceBag {
 
             $methodName = $this->camelizeString('linked', $resource);
 
-            $resources[$key ? $key : $resource] = $this->serializer->link($this->transformer->{$methodName}($this->data), $resource);
+            $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->link($this->transformer->{$methodName}($this->data), $resource);
         }
 
         return $resources;
