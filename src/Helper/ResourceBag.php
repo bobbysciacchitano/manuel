@@ -5,10 +5,10 @@ use Manuel\Transformer\TransformerAbstract;
 
 class ResourceBag {
 
-	/**
-	 * @var array
-	 */
-	protected $resources;
+  /**
+   * @var array
+   */
+  protected $resources;
 
     /**
      * @var mixed
@@ -26,7 +26,7 @@ class ResourceBag {
 
     /**
      * Create a new resource bag object for organising references to related
-		 * objects.
+     * objects.
      *
      * @param mixed $data
      * @param TransformerAbstract $transformer
@@ -116,7 +116,7 @@ class ResourceBag {
 
     /**
      * Return a camelized string reference to a method that should
-		 * be loaded from the item.
+     * be loaded from the item.
      *
      * @param string $key
      * @param string $resource
