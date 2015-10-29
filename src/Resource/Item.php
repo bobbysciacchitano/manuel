@@ -5,10 +5,7 @@ use Manuel\Serializer\SerializerAbstract;
 class Item extends ResourceAbstract {
 
     /**
-     *
-     *
-     * @param SerializerAbstract $serializer
-     * @return array
+     * @inheritdoc
      */
     public function create(SerializerAbstract $serializer)
     {

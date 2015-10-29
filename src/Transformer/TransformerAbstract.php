@@ -23,7 +23,7 @@ abstract class TransformerAbstract {
     protected $linkedResources = array();
 
     /**
-     *
+     * Return the primary key for the data array.
      *
      * @return string
      */
@@ -33,7 +33,7 @@ abstract class TransformerAbstract {
     }
 
     /**
-     *
+     * Return the name of the resource type.
      *
      * @return string
      */
@@ -43,7 +43,7 @@ abstract class TransformerAbstract {
     }
 
     /**
-     *
+     * Return an array of simple relationship names for thie resource.
      *
      * @return array
      */
@@ -53,7 +53,7 @@ abstract class TransformerAbstract {
     }
 
     /**
-     *
+     * Return an array of linked resource names for this resource.
      *
      * @return array
      */

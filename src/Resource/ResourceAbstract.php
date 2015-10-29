@@ -21,7 +21,7 @@ abstract class ResourceAbstract {
     protected $resourceKey;
 
     /**
-     *
+     * Create a new resource object.
      *
      * @param mixed $data
      * @param TransformerAbstract $transformer
@@ -37,7 +37,7 @@ abstract class ResourceAbstract {
     }
 
     /**
-     *
+     * Return the unserialized resource.
      *
      * @return mixed
      */
@@ -47,7 +47,7 @@ abstract class ResourceAbstract {
     }
 
     /**
-     *
+     * Return the transformer the resource should use.
      *
      * @return TransformerAbstract
      */
@@ -57,7 +57,7 @@ abstract class ResourceAbstract {
     }
 
     /**
-     *
+     * Return the key for this resource.
      *
      * @return string
      */
@@ -67,7 +67,7 @@ abstract class ResourceAbstract {
     }
 
     /**
-     *
+     * Format and serialize the response for the item.
      *
      * @param SerializerAbstract $serializer
      * @return array

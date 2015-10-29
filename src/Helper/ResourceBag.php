@@ -25,7 +25,8 @@ class ResourceBag {
      */
 
     /**
-     *
+     * Create a new resource bag object for organising references to related
+		 * objects.
      *
      * @param mixed $data
      * @param TransformerAbstract $transformer
@@ -41,7 +42,7 @@ class ResourceBag {
     }
 
     /**
-     *
+     * Return true if a item contains any simple or linked relationships.
      *
      * @return boolean
      */
@@ -52,7 +53,7 @@ class ResourceBag {
     }
 
     /**
-     *
+     * Returns true if the item contains any simple relationships.
      *
      * @return boolean
      */
@@ -64,7 +65,7 @@ class ResourceBag {
     }
 
     /**
-     *
+     * Return an array of serialized simple relationships.
      *
      * @return array
      */
@@ -83,7 +84,7 @@ class ResourceBag {
     }
 
     /**
-     *
+     * Returns true if item contains any linked relationships.
      *
      * @return boolean
      */
@@ -95,7 +96,7 @@ class ResourceBag {
     }
 
     /**
-     *
+     * Returns an array of serialized linked relationships.
      *
      * @return array
      */
@@ -114,7 +115,8 @@ class ResourceBag {
     }
 
     /**
-     *
+     * Return a camelized string reference to a method that should
+		 * be loaded from the item.
      *
      * @param string $key
      * @param string $resource

@@ -52,7 +52,7 @@ class JsonAPISerializer extends SerializerAbstract {
     }
 
     /**
-     *
+     * Embed relationships in the correct format.
      *
      * @param ResourceBag $resourceBag
      * @param TransformerAbstract $transformer

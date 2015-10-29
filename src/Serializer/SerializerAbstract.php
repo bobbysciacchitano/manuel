@@ -11,7 +11,7 @@ class SerializerAbstract {
     protected $resourceKey;
 
     /**
-     *
+     * Serialize a base item into a resource.
      *
      * @param array $data
      * @param TransformerAbstract $transformer
@@ -23,7 +23,7 @@ class SerializerAbstract {
     }
 
     /**
-     *
+     * Serialize an array of items into a resource.
      *
      * @param array $data
      * @param TransformerAbstract $transformer
@@ -35,7 +35,7 @@ class SerializerAbstract {
     }
 
     /**
-     *
+     * Serialize a link into a resource reference.
      *
      * @param string $data
      * @param string $resourceKey
@@ -47,7 +47,7 @@ class SerializerAbstract {
     }
 
     /**
-     *
+     * Serialize a simple relationship.
      *
      * @param string $data
      * @param string $resourceKey
@@ -59,7 +59,7 @@ class SerializerAbstract {
     }
 
     /**
-     *
+     * Serialize embedded relationships that are stored in the resource bag.
      *
      * @param ResourceBag $resourceBag
      * @param TransformerAbstract $transformer
@@ -83,7 +83,7 @@ class SerializerAbstract {
     }
 
     /**
-     *
+     * Wrap base payload and sideloaded includes.
      *
      * @param array $data
      * @param array $includes

@@ -142,4 +142,3 @@ Manuel out of the box includes a basic implementation of the JsonAPI serializer.
 * Embedded includes
 * Ember Serializer
 * Sideloaded includes
-* Improve documentation

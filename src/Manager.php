@@ -11,7 +11,7 @@ class Manager {
     protected $serializer;
 
     /**
-     *
+     * Create a new manager for seriaializing and translating objects.
      *
      * @param ResourceAbstract $resource
      * @param SerializerAbstract $serializer
@@ -22,7 +22,7 @@ class Manager {
     }
 
     /**
-     *
+     * Translate a item into a resource and serialize the payload.
      *
      * @param ResourceAbstract $resource
      * @return array
