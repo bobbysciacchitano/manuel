@@ -35,10 +35,8 @@ class ResourceBag {
     public function __construct($data, TransformerAbstract $transformer, SerializerAbstract $serializer)
     {
         $this->data = $data;
-
-        $this->serializer  = $serializer;
-
         $this->transformer = $transformer;
+        $this->serializer  = $serializer;
     }
 
     /**
