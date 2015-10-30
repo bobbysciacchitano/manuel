@@ -2,9 +2,9 @@
 
 require_once '../mocks/DummyTransformer.php';
 
-class ResourceBagTest extends PHPUnit_Framework_TestCase
+class ResourceBagTest extends PHPUnit_Framework_TestCase {
 
-  testCanCreateResrouceBag()
+  public function testCanCreateResrouceBag()
   {
     $data = array();
 
