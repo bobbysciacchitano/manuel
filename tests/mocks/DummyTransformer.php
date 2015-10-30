@@ -1,5 +1,7 @@
 <?php namespace Mocks;
 
+use Manuel\Transformer\TransformerAbstract;
+
 class DummyTransformer extends TransformerAbstract {
 
   /**
