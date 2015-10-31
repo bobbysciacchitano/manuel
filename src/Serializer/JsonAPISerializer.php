@@ -55,10 +55,9 @@ class JsonAPISerializer extends SerializerAbstract {
      * Embed relationships in the correct format.
      *
      * @param ResourceBag $resourceBag
-     * @param TransformerAbstract $transformer
      * @return array
      */
-    public function embedded(ResourceBag $resourceBag, TransformerAbstract $transformer)
+    public function embedded(ResourceBag $resourceBag)
     {
         if (!$resourceBag->containsRelationships()) {
             return array();

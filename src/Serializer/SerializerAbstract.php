@@ -62,10 +62,9 @@ class SerializerAbstract {
      * Serialize embedded relationships that are stored in the resource bag.
      *
      * @param ResourceBag $resourceBag
-     * @param TransformerAbstract $transformer
      * @return array
      */
-    public function embedded(ResourceBag $resourceBag, TransformerAbstract $transformer)
+    public function embedded(ResourceBag $resourceBag)
     {
         if (!$resourceBag->containsRelationships()) {
             return array();
