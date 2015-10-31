@@ -73,7 +73,7 @@ class JsonAPISerializer extends SerializerAbstract {
     /**
      * @inheritdoc
      */
-    public function payload(array $data, array $includes = null)
+    public function payload(array $data, $includes = array(), $resourceKey = null)
     {
         return array('data' => $data);
     }
