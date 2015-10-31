@@ -1,5 +1,6 @@
 <?php namespace Manuel\Resource;
 
+use Manuel\Helper\ResourceBag;
 use Manuel\Serializer\SerializerAbstract;
 
 class Item extends ResourceAbstract {

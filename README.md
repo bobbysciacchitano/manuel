@@ -1,6 +1,8 @@
 Manuel
 ======
 
+[![Build Status](https://travis-ci.org/bobbysciacchitano/manuel.svg?branch=master)
+
 The easy to use PHP Serializer. Because translation shouldn't be a chore.
 
 This project was heavily inspired by PHP League's Fractal project.
@@ -138,7 +140,6 @@ Manuel out of the box includes a basic implementation of the JsonAPI serializer.
 
 #### Work in progress
 
-* Unit tests
 * Embedded includes
 * Ember Serializer
 * Sideloaded includes

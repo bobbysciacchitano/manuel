@@ -25,13 +25,14 @@ class Manager {
      * Translate a item into a resource and serialize the payload.
      *
      * @param ResourceAbstract $resource
+     * @param string $resourceKey
      * @return array
      */
-    public function translate(ResourceAbstract $resource)
+    public function translate(ResourceAbstract $resource, $resourceKey = null)
     {
         $resource = $resource->create($this->serializer);
 
-        return $this->serializer->payload($resource);
+        return $this->serializer->payload($resource, null, $resourceKey);
     }
 
 }

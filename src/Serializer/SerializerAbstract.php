@@ -87,14 +87,23 @@ class SerializerAbstract {
      *
      * @param array $data
      * @param array $includes
+     * @param string $resourceKey
      * @return array
      */
-    public function payload(array $data, array $includes = array())
+    public function payload(array $data, $includes = array(), $resourceKey = null)
     {
-        $payload = array($data);
+        $payload = array();
 
-        foreach ($includes as $include) {
+        if ($resourceKey) {
+          $payload[$resourceKey] = $data;
+        } else {
+          $payload = $data;
+        }
+
+        if ($includes) {
+          foreach ($includes as $include) {
             $payload[] = $include;
+          }
         }
 
         return $payload;
