@@ -1,7 +1,7 @@
 Manuel
 ======
 
-[![Build Status](https://travis-ci.org/bobbysciacchitano/manuel.svg?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/768651b6-0cfb-4bed-90d9-54d1ce1b8b81/mini.png)](https://insight.sensiolabs.com/projects/768651b6-0cfb-4bed-90d9-54d1ce1b8b81)
+[![Build Status](https://travis-ci.org/bobbysciacchitano/manuel.svg?branch=master)](https://travis-ci.org/bobbysciacchitano/manuel) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/768651b6-0cfb-4bed-90d9-54d1ce1b8b81/mini.png)](https://insight.sensiolabs.com/projects/768651b6-0cfb-4bed-90d9-54d1ce1b8b81)
 
 The easy to use PHP Serializer. Because translation shouldn't be a chore.
 
