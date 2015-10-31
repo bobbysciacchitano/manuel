@@ -1,6 +1,5 @@
 <?php namespace Manuel\Serializer;
 
-use Manuel\Resource\ResourceAbstract;
 use Manuel\Transformer\TransformerAbstract;
 use Manuel\Helper\ResourceBag;
 
@@ -55,8 +54,9 @@ class JsonAPISerializer extends SerializerAbstract {
     /**
      * @inheritdoc
      */
-    public function embedded($resource) {
-      return array('data' => $resource);
+    public function embedded($data, $resourceKey = null)
+    {
+      return array('data' => $data);
     }
 
     /**
