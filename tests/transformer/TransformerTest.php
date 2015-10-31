@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../mocks/DummyTransformer.php';
+require_once __DIR__ . '/../mocks/DummyEmbeddedTransformer.php';
 
 class TransformerTest extends PHPUnit_Framework_TestCase {
 
@@ -22,14 +23,21 @@ class TransformerTest extends PHPUnit_Framework_TestCase {
   {
     $transformer = new DummyTransformer;
 
-    $this->assertEquals(array('simple'), $transformer->getRelationships());
+    $this->assertEquals(array('simple_relationship'), $transformer->getRelationships());
   }
 
   public function testLinkedResources()
   {
     $transformer = new DummyTransformer;
 
-    $this->assertEquals(array('simple'), $transformer->getLinkedResources());
+    $this->assertEquals(array('simple_linked'), $transformer->getLinkedResources());
+  }
+
+  public function testEmbeddedResources()
+  {
+    $transformer = new DummyTransformer;
+
+    $this->assertEquals(array('test'), $transformer->getEmbeddedResources());
   }
 
 }

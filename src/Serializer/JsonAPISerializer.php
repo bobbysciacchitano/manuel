@@ -1,5 +1,6 @@
 <?php namespace Manuel\Serializer;
 
+use Manuel\Resource\ResourceAbstract;
 use Manuel\Transformer\TransformerAbstract;
 use Manuel\Helper\ResourceBag;
 
@@ -52,12 +53,16 @@ class JsonAPISerializer extends SerializerAbstract {
     }
 
     /**
-     * Embed relationships in the correct format.
-     *
-     * @param ResourceBag $resourceBag
-     * @return array
+     * @inheritdoc
      */
-    public function embedded(ResourceBag $resourceBag)
+    public function embedded($resource) {
+      return array('data' => $resource);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function relationships(ResourceBag $resourceBag)
     {
         if (!$resourceBag->containsRelationships()) {
             return array();
@@ -65,7 +70,8 @@ class JsonAPISerializer extends SerializerAbstract {
 
         return array('relationships' => array_merge(
             $resourceBag->fetchSimple(),
-            $resourceBag->fetchLinks()
+            $resourceBag->fetchLinks(),
+            $resourceBag->fetchEmbedded()
         ));
     }
 

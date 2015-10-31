@@ -19,8 +19,8 @@ class Item extends ResourceAbstract {
         // Convert into final resource object
         $resource = $serializer->item($transformed, $this->transformer);
 
-        // Pull embedded relationships into the correct format
-        $embedded = $serializer->embedded($resourceBag, $this->transformer);
+        // Pull relationships into the correct format
+        $embedded = $serializer->relationships($resourceBag, $this->transformer);
 
         return array_merge($resource, $embedded);
     }

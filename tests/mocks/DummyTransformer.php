@@ -1,6 +1,7 @@
 <?php
 
 use Manuel\Transformer\TransformerAbstract;
+use Manuel\Resource\Item;
 
 class DummyTransformer extends TransformerAbstract {
 
@@ -12,12 +13,17 @@ class DummyTransformer extends TransformerAbstract {
   /**
    * @inheritdoc
    */
-  protected $relationships = [ 'simple' ];
+  protected $relationships = [ 'simple_relationship' ];
 
   /**
    * @inheritdoc
    */
-  protected $linkedResources = [ 'simple' ];
+  protected $linkedResources = [ 'simple_linked' ];
+
+  /**
+   * @inheritdoc
+   */
+  protected $embeddedResources = [ 'test' ];
 
   /**
    *
@@ -39,9 +45,9 @@ class DummyTransformer extends TransformerAbstract {
    * @param array $data
    * @return array
    */
-  public function relationshipSimple($data)
+  public function relationshipSimpleRelationship($data)
   {
-    return 'testing';
+    return 5;
   }
 
   /**
@@ -49,9 +55,18 @@ class DummyTransformer extends TransformerAbstract {
    * @param array $data
    * @return string
    */
-  public function linkedSimple($data)
+  public function linkedSimpleLinked($data)
   {
-    return 'testing';
+    return '/customer/1/testing';
   }
 
+  /**
+   *
+   * @param array $data
+   * @return string
+   */
+  public function embeddedTest($data)
+  {
+    return new Item(array('id' => 9, 'test' => 'test'), new DummyEmbeddedTransformer);
+  }
 }

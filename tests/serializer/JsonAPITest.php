@@ -14,8 +14,6 @@ class JsonAPITest extends PHPUnit_Framework_TestCase {
       'id' => 1,
       'alpha'  => 'gamma',
       'beta'   => 'theta',
-      // Test remove simple relationship
-      'simple' => 'simples'
     );
 
     $expected = array(
@@ -69,6 +67,30 @@ class JsonAPITest extends PHPUnit_Framework_TestCase {
     );
 
     $this->assertEquals($expected, $serializer->simple([1, 2], 'test'));
+  }
+
+  public function testEmbeddedRelationship()
+  {
+    $serializer  = new \Manuel\Serializer\JsonAPISerializer;
+
+    $transformer = new DummyTransformer;
+
+    $data = array(
+      'id' => 1,
+      'alpha'  => 'gamma',
+      'beta'   => 'theta'
+    );
+
+    $expected = array(
+      'id'   => 1,
+      'type' => 'test',
+      'attributes' => array(
+        'alpha' => 'gamma',
+        'beta'  => 'theta'
+      )
+    );
+
+    $this->assertEquals($expected, $serializer->item($data, $transformer));
   }
 
   public function testPayloadCorrect()

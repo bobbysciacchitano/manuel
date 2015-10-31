@@ -45,7 +45,11 @@ class ResourceBag {
      * @return boolean
      */
     public function containsRelationships() {
-        if ($this->transformer->getRelationships() || $this->transformer->getLinkedResources()) {
+        if (
+          $this->transformer->getRelationships() ||
+          $this->transformer->getLinkedResources() ||
+          $this->transformer->getEmbeddedResources()
+        ) {
             return true;
         }
     }
@@ -113,6 +117,39 @@ class ResourceBag {
     }
 
     /**
+     * Returns true if item contains any embedded resources..
+     *
+     * @return boolean
+     */
+    public function containsEmbedded()
+    {
+        if ($this->transformer->getEmbeddedResources()) {
+            return true;
+        }
+    }
+
+    /**
+     * Returns an array of serialized embedded relationships.
+     *
+     * @return array
+     */
+    public function fetchEmbedded()
+    {
+        $resources = array();
+
+        foreach ($this->transformer->getEmbeddedResources() as $key => $resource) {
+
+            $methodName = $this->camelizeString('embedded', $resource);
+
+            $data = $this->transformer->{$methodName}($this->data)->create($this->serializer);
+
+            $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->embedded($data, $resource);
+        }
+
+        return $resources;
+    }
+
+    /**
      * Return a camelized string reference to a method that should
      * be loaded from the item.
      *
@@ -122,7 +159,7 @@ class ResourceBag {
      */
     private function camelizeString($type, $resource)
     {
-        return $type . implode('', array_map('ucfirst', array_map('strtolower', explode('-', $resource))));
+        return $type . implode('', array_map('ucfirst', array_map('strtolower', preg_split('/[\s_-]/', $resource))));
     }
 
 }

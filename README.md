@@ -134,12 +134,15 @@ Simple relationships can be used to contrive additional data or return a simple 
 
 Much like simple relationships, this type of resource can be used to create a link reference to another resource that can be loaded from the API.
 
+**Embedded Resources**
+
+Much like simple relationships, embedded resources can be used to nest another resource within the resource tree. Embedded resources can be either a ```Collection``` or ```Item``` and the serializer will attempt to serialize all relationships underneath.
+
 #### Serializers
 
 Manuel out of the box includes a basic implementation of the JsonAPI serializer. Work is in progress to make this a first-class implementation of the JsonAPI specification.
 
 #### Work in progress
 
-* Embedded includes
 * Ember Serializer
 * Sideloaded includes

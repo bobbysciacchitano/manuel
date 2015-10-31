@@ -5,15 +5,8 @@ require_once __DIR__ . '/../mocks/DummySerializer.php';
 
 class ResourceBagTest extends PHPUnit_Framework_TestCase {
 
-  /**
-   *
-   */
   public $resourceBag;
 
-  /**
-   *
-   *
-   */
   public function setUp()
   {
     $data = array();
@@ -38,8 +31,8 @@ class ResourceBagTest extends PHPUnit_Framework_TestCase {
   {
     $simple = $this->resourceBag->fetchSimple();
 
-    $this->assertArrayHasKey('simple', $simple);
-    $this->assertEquals('testing', $simple['simple']);
+    $this->assertArrayHasKey('simple_relationship', $simple);
+    $this->assertEquals(5, $simple['simple_relationship']);
   }
 
   public function testContainsLinks()
@@ -51,8 +44,21 @@ class ResourceBagTest extends PHPUnit_Framework_TestCase {
   {
     $links = $this->resourceBag->fetchLinks();
 
-    $this->assertArrayHasKey('simple', $links);
-    $this->assertEquals('testing', $links['simple']);
+    $this->assertArrayHasKey('simple_linked', $links);
+    $this->assertEquals('/customer/1/testing', $links['simple_linked']);
+  }
+
+  public function testContainsEmbedded()
+  {
+    $this->assertTrue($this->resourceBag->containsEmbedded());
+  }
+
+  public function testFetchEmbedded()
+  {
+    $embedded = $this->resourceBag->fetchEmbedded();
+
+    $this->assertArrayHasKey('test', $embedded);
+    $this->assertEquals(9, $embedded['test']['id']);
   }
 
 }

@@ -23,6 +23,11 @@ abstract class TransformerAbstract {
     protected $linkedResources = array();
 
     /**
+     * @var array
+     */
+    protected $embeddedResources = array();
+
+    /**
      * Return the primary key for the data array.
      *
      * @return string
@@ -60,6 +65,16 @@ abstract class TransformerAbstract {
     public function getLinkedResources()
     {
         return $this->linkedResources;
+    }
+
+    /**
+     * Return an array of embedded resource names for this resource.
+     *
+     * @return array
+     */
+    public function getEmbeddedResources()
+    {
+        return $this->embeddedResources;
     }
 
 }

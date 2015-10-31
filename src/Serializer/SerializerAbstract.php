@@ -47,6 +47,18 @@ class SerializerAbstract {
     }
 
     /**
+     * Serialize a embedded resource into a object.
+     *
+     * @param string $data
+     * @param string $resourceKey
+     * @return array
+     */
+    public function embedded($data, $resourceKey = null)
+    {
+        return $data;
+    }
+
+    /**
      * Serialize a simple relationship.
      *
      * @param string $data
@@ -64,14 +76,15 @@ class SerializerAbstract {
      * @param ResourceBag $resourceBag
      * @return array
      */
-    public function embedded(ResourceBag $resourceBag)
+    public function relationships(ResourceBag $resourceBag)
     {
         if (!$resourceBag->containsRelationships()) {
             return array();
         }
 
         $embedded = array_merge(
-            $resourceBag->fetchSimple()
+            $resourceBag->fetchSimple(),
+            $resourceBag->fetchEmbedded()
         );
 
         if ($resourceBag->containsLinks()) {
