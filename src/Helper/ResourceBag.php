@@ -5,10 +5,10 @@ use Manuel\Transformer\TransformerAbstract;
 
 class ResourceBag {
 
-  /**
-   * @var array
-   */
-  protected $resources;
+    /**
+     * @var array
+     */
+    protected $resources;
 
     /**
      * @var mixed
@@ -23,6 +23,7 @@ class ResourceBag {
     /**
      * @var SerializerAbstract
      */
+    protected $serializer;
 
     /**
      * Create a new resource bag object for organising references to related
