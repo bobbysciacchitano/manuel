@@ -14,18 +14,26 @@ class ManagerTest extends PHPUnit_Framework_TestCase {
       'test' => 'one'
     );
 
-    $payload = $manager->translate(new \Manuel\Resource\Item($data, new DummyTransformer));
+    $payload = $manager->translate(new \Manuel\Resource\Item($data, new DummyTransformer), 'test');
 
     $expected = array(
-      'id'   => 1,
-      'test' => 'data_1',
-      'simple_item' => 2,
-      'simple_collection' => [3, 4],
-      'test_item' => array('id' => 5, 'test' => 'data_5'),
-      'test_collection' => array(
-        array('id' => 6, 'test' => 'data_6'),
-        array('id' => 7, 'test' => 'data_7')),
-      'links' => array('simple_linked' => '/customer/1/testing')
+      'test' => array(
+        'id'   => 1,
+        'test' => 'data_1',
+        'simple_item' => 2,
+        'simple_collection' => [3, 4],
+        'test_item' => array('id' => 5, 'test' => 'data_5'),
+        'test_collection' => array(
+          array('id' => 6, 'test' => 'data_6'),
+          array('id' => 7, 'test' => 'data_7')),
+        'sideload_item' => 8,
+        'sideload_collection' => [9, 10],
+        'links' => array('simple_linked' => '/customer/1/testing')
+      ),
+      'sideload_item' => array('id' => 8, 'test' => 'data_8'),
+      'sideload_collection' => array(
+        array('id' => 9, 'test' => 'data_9'),
+        array('id' => 10, 'test' => 'data_10'))
     );
 
     $this->assertEquals($expected, $payload);
@@ -40,9 +48,9 @@ class ManagerTest extends PHPUnit_Framework_TestCase {
       array('id' => 2, 'test' => 'two')
     );
 
-    $payload = $manager->translate(new \Manuel\Resource\Collection($data, new DummyTransformer));
+    $payload = $manager->translate(new \Manuel\Resource\Collection($data, new DummyTransformer), 'test');
 
-    $expected = array(
+    $expected = array('test' => array(
       array(
         'id' => 1,
         'test' => 'data_1',
@@ -52,6 +60,8 @@ class ManagerTest extends PHPUnit_Framework_TestCase {
         'test_collection' => array(
           array('id' => 6, 'test' => 'data_6'),
           array('id' => 7, 'test' => 'data_7')),
+        'sideload_item' => 8,
+        'sideload_collection' => [9, 10],
         'links'   => array('simple_linked' => '/customer/1/testing')
       ),
       array(
@@ -63,8 +73,15 @@ class ManagerTest extends PHPUnit_Framework_TestCase {
         'test_collection' => array(
           array('id' => 6, 'test' => 'data_6'),
           array('id' => 7, 'test' => 'data_7')),
+        'sideload_item' => 8,
+        'sideload_collection' => [9, 10],
         'links'   => array('simple_linked' => '/customer/1/testing')
       ),
+    ),
+    'sideload_item' => array('id' => 8, 'test' => 'data_8'),
+    'sideload_collection' => array(
+      array('id' => 9, 'test' => 'data_9'),
+      array('id' => 10, 'test' => 'data_10'))
     );
 
     $this->assertEquals($expected, $payload);
@@ -105,12 +122,26 @@ class ManagerTest extends PHPUnit_Framework_TestCase {
               array('id' => 7, 'type' => 'test_embedded', 'attributes' => array('test' => 'data_7')),
             )
           ),
+          'sideload_item' => array(
+            'data' => array('id' => 8, 'type' => 'test_embedded')
+          ),
+          'sideload_collection' => array(
+            'data' => array(
+              array('id' => 9, 'type' => 'test_embedded'),
+              array('id' => 10, 'type' => 'test_embedded')
+            )
+          ),
           'simple_linked' => array(
             'links' => array(
               'related' => '/customer/1/testing'
             )
           )
         )
+      ),
+      'includes' => array(
+        array('id' => 8, 'type' => 'test_embedded', 'attributes' => array('test' => 'data_8')),
+        array('id' => 9, 'type' => 'test_embedded', 'attributes' => array('test' => 'data_9')),
+        array('id' => 10, 'type' => 'test_embedded', 'attributes' => array('test' => 'data_10')),
       )
     );
 

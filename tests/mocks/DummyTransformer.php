@@ -29,7 +29,7 @@ class DummyTransformer extends TransformerAbstract {
   /**
    * @inheritdoc
    */
-  //protected $includeResources = [ 'sideload_item', 'sideload_collection' ];
+  protected $includedResources = [ 'sideload_item', 'sideload_collection' ];
 
   /**
    *
@@ -93,6 +93,28 @@ class DummyTransformer extends TransformerAbstract {
   public function embeddedTestCollection($data)
   {
     $items = array(array('id' => 6), array('id' => 7));
+
+    return new Collection($items, new DummyEmbeddedTransformer);
+  }
+
+  /**
+   *
+   * @param array $data
+   * @return Item
+   */
+  public function includeSideloadItem($data)
+  {
+    return new Item(array('id' => 8), new DummyEmbeddedTransformer);
+  }
+
+  /**
+   *
+   * @param array $data
+   * @return Collection
+   */
+  public function includeSideloadCollection($data)
+  {
+    $items = array(array('id' => 9), array('id' => 10));
 
     return new Collection($items, new DummyEmbeddedTransformer);
   }

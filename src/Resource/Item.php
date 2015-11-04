@@ -20,9 +20,9 @@ class Item extends ResourceAbstract {
         $resource = $serializer->item($transformed, $this->transformer);
 
         // Pull relationships into the correct format
-        $embedded = $serializer->relationships($resourceBag, $this->transformer);
+        $relationships = $serializer->relationships($resourceBag, $this->transformer);
 
-        return array_merge($resource, $embedded);
+        return array_merge($resource, $relationships);
     }
 
     /**

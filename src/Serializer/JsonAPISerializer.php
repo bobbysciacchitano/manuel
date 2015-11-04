@@ -64,7 +64,7 @@ class JsonAPISerializer extends SerializerAbstract {
      */
     public function sideload($data, $resourceKey = null)
     {
-        return $this->simple($data);
+        return $this->simple($data, $resourceKey);
     }
 
     /**
@@ -76,11 +76,13 @@ class JsonAPISerializer extends SerializerAbstract {
             return array();
         }
 
+        $this->includes = array_merge($this->includes, $resourceBag->sideloadResources(false));
+
         return array('relationships' => array_merge(
             $resourceBag->fetchSimple(),
             $resourceBag->fetchLinks(),
             $resourceBag->fetchEmbedded(),
-            $resourceBag->fetchIncludes($this->includes)
+            $resourceBag->fetchSideloads()
         ));
     }
 
@@ -92,7 +94,7 @@ class JsonAPISerializer extends SerializerAbstract {
       $payload = array('data' => $data);
 
       if ($this->includes) {
-        $payload['includes'] = $includes;
+        $payload['includes'] = $this->includes;
       }
 
       return $payload;

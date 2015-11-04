@@ -168,7 +168,7 @@ class ResourceBag {
      *
      * @return array
      */
-    public function fetchIncludes()
+    public function fetchSideloads()
     {
         $resources = array();
 
@@ -176,12 +176,44 @@ class ResourceBag {
 
             $methodName = $this->camelizeString('include', $resource);
 
-            $data = $this->transformer->{$methodName}($this->data)->create($this->serializer);
+            $item = $this->transformer->{$methodName}($this->data);
+            $data = $item->identifiers($this->serializer);
 
-            $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->include($data, $resource);
+            $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->sideload($data, $item->getTransformer()->getTypeKey());
         }
 
         return $resources;
+    }
+
+    /**
+     * Returns an array of relationships that should be sideloaded.
+     *
+     * @param boolean $group
+     * @return array
+     */
+    public function sideloadResources($group = true)
+    {
+      $resources = array();
+
+      foreach ($this->transformer->getIncludedResources() as $key => $resource) {
+
+          $methodName = $this->camelizeString('include', $resource);
+
+          $item = $this->transformer->{$methodName}($this->data);
+          $data = $item->create($this->serializer);
+
+          if ($group) {
+            $resources[!is_numeric($key) ? $key : $resource] = $data;
+          } else {
+            if($item->returnsCollection()) {
+              $resources = array_merge($resources, $data);
+            } else {
+              $resources[] = $data;
+            }
+          }
+      }
+
+      return $resources;
     }
 
     /**

@@ -21,6 +21,11 @@ abstract class ResourceAbstract {
     protected $resourceKey;
 
     /**
+     * @var boolean
+     */
+    protected $returnsCollection = false;
+
+    /**
      * Create a new resource object.
      *
      * @param mixed $data
@@ -64,6 +69,16 @@ abstract class ResourceAbstract {
     public function getResourceKey()
     {
         return $this->resourceKey;
+    }
+
+    /**
+     * Does this resource return a collection or a individual array?
+     *
+     * @return boolean
+     */
+    public function returnsCollection()
+    {
+        return $this->returnsCollection;
     }
 
     /**

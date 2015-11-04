@@ -54,7 +54,7 @@ class MyTransformer extends TransformerAbstract {
      * Create link to external resource.
      *
      * @param TheObject $myObject
-     * @return Link
+     * @return string
      */
     public function linkedTasks(TheObject $myObject)
     {
@@ -138,11 +138,69 @@ Much like simple relationships, this type of resource can be used to create a li
 
 Much like simple relationships, embedded resources can be used to nest another resource within the resource tree. Embedded resources can be either a ```Collection``` or ```Item``` and the serializer will attempt to serialize all relationships underneath.
 
+```php
+<?php
+
+  /**
+   * @var inheritdoc
+   */
+  protected $embeddedResources = [ 'test_item', 'test_collection' ];
+
+  /**
+   *
+   * @param MyObject $data
+   * @return Item
+   */
+  public function embeddedTestItem($data)
+  {
+    return new Item($data->item), new Transformer);
+  }
+
+  /**
+   *
+   * @param MyObject $data
+   * @return Collection
+   */
+  public function embeddedTestCollection($data)
+  {
+    return new Collection($data->items, new Transformer);
+  }
+
+```
+
+**Sideloaded Resources**
+
+This type of resource will be included along side the main resource and references to the resource identifiers can be loaded as part of the relationship serialization.
+
+```php
+<?php
+
+  /**
+   * @var inheritdoc
+   */
+  protected $includedResources = [ 'test_item', 'test_collection' ];
+
+  /**
+   *
+   * @param MyObject $data
+   * @return Item
+   */
+  public function includeTestItem($data)
+  {
+    return new Item($data->item), new Transformer);
+  }
+
+  /**
+   *
+   * @param MyObject $data
+   * @return Collection
+   */
+  public function includeTestCollection($data)
+  {
+    return new Collection($data->items, new Transformer);
+  }
+
+```
 #### Serializers
 
-Manuel out of the box includes a basic implementation of the JsonAPI serializer. Work is in progress to make this a first-class implementation of the JsonAPI specification.
-
-#### Work in progress
-
-* Ember Serializer
-* Sideloaded includes
+Manuel out of the box includes a basic implementation of the JsonAPI serializer. The abstract serializer includes a flexible API which can form the basis for your own serializer.

@@ -7,6 +7,11 @@ class Collection extends ResourceAbstract {
     /**
      * @inheritdoc
      */
+    protected $returnsCollection = true;
+
+    /**
+     * @inheritdoc
+     */
     public function create(SerializerAbstract $serializer)
     {
         $resources = array();

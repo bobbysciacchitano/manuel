@@ -99,17 +99,19 @@ class SerializerAbstract {
             return array();
         }
 
-        $embedded = array_merge(
+        $relationships = array_merge(
             $resourceBag->fetchSimple(),
             $resourceBag->fetchEmbedded(),
-            $resourceBag->fetchIncludes()
+            $resourceBag->fetchSideloads()
         );
 
         if ($resourceBag->containsLinks()) {
-            $embedded['links'] = $resourceBag->fetchLinks();
+            $relationships['links'] = $resourceBag->fetchLinks();
         }
 
-        return $embedded;
+        $this->includes = array_merge($this->includes, $resourceBag->sideloadResources());
+
+        return $relationships;
     }
 
     /**
@@ -130,9 +132,7 @@ class SerializerAbstract {
         }
 
         if ($this->includes) {
-          foreach ($this->includes as $include) {
-            $payload[] = $include;
-          }
+          $payload = array_merge($payload, $this->includes);
         }
 
         return $payload;
