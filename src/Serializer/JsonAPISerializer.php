@@ -94,7 +94,7 @@ class JsonAPISerializer extends SerializerAbstract {
       $payload = array('data' => $data);
 
       if ($this->includes) {
-        $payload['includes'] = $this->includes;
+        $payload['included'] = $this->includes;
       }
 
       return $payload;
