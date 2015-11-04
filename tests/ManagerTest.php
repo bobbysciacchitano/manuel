@@ -138,7 +138,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase {
           )
         )
       ),
-      'includes' => array(
+      'included' => array(
         array('id' => 8, 'type' => 'test_embedded', 'attributes' => array('test' => 'data_8')),
         array('id' => 9, 'type' => 'test_embedded', 'attributes' => array('test' => 'data_9')),
         array('id' => 10, 'type' => 'test_embedded', 'attributes' => array('test' => 'data_10')),
