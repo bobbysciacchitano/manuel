@@ -19,9 +19,8 @@ class DummyEmbeddedTransformer extends TransformerAbstract {
   public function transform($data)
   {
     return array(
-      'id' => (int) $data['id'],
-      'value_1' => "value_1",
-      'value_2' => "value_2"
+      'id'   => (int) $data['id'],
+      'test' => "data_" . $data['id']
     );
   }
 

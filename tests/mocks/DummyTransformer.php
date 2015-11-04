@@ -2,6 +2,7 @@
 
 use Manuel\Transformer\TransformerAbstract;
 use Manuel\Resource\Item;
+use Manuel\Resource\Collection;
 
 class DummyTransformer extends TransformerAbstract {
 
@@ -13,7 +14,7 @@ class DummyTransformer extends TransformerAbstract {
   /**
    * @inheritdoc
    */
-  protected $relationships = [ 'simple_relationship' ];
+  protected $relationships = [ 'simple_item', 'simple_collection' ];
 
   /**
    * @inheritdoc
@@ -23,7 +24,12 @@ class DummyTransformer extends TransformerAbstract {
   /**
    * @inheritdoc
    */
-  protected $embeddedResources = [ 'test' ];
+  protected $embeddedResources = [ 'test_item', 'test_collection' ];
+
+  /**
+   * @inheritdoc
+   */
+  //protected $includeResources = [ 'sideload_item', 'sideload_collection' ];
 
   /**
    *
@@ -34,10 +40,19 @@ class DummyTransformer extends TransformerAbstract {
   public function transform($data)
   {
     return array(
-      'id' => (int) $data['id'],
-      'value_1' => "value_1",
-      'value_2' => "value_2"
+      'id'   => (int) $data['id'],
+      'test' => 'data_' . $data['id']
     );
+  }
+
+  /**
+   *
+   * @param array $data
+   * @return integer
+   */
+  public function relationshipSimpleItem($data)
+  {
+    return 2;
   }
 
   /**
@@ -45,9 +60,9 @@ class DummyTransformer extends TransformerAbstract {
    * @param array $data
    * @return array
    */
-  public function relationshipSimpleRelationship($data)
+  public function relationshipSimpleCollection($data)
   {
-    return 5;
+    return [3, 4];
   }
 
   /**
@@ -63,10 +78,23 @@ class DummyTransformer extends TransformerAbstract {
   /**
    *
    * @param array $data
-   * @return string
+   * @return Item
    */
-  public function embeddedTest($data)
+  public function embeddedTestItem($data)
   {
-    return new Item(array('id' => 9, 'test' => 'test'), new DummyEmbeddedTransformer);
+    return new Item(array('id' => 5), new DummyEmbeddedTransformer);
   }
+
+  /**
+   *
+   * @param array $data
+   * @return Collection
+   */
+  public function embeddedTestCollection($data)
+  {
+    $items = array(array('id' => 6), array('id' => 7));
+
+    return new Collection($items, new DummyEmbeddedTransformer);
+  }
+
 }

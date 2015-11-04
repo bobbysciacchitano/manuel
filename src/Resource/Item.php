@@ -25,4 +25,15 @@ class Item extends ResourceAbstract {
         return array_merge($resource, $embedded);
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function identifiers()
+    {
+        // Transform raw data into correct format/s
+        $transformed = $this->transformer->transform($this->data);
+
+        return $transformed[$this->transformer->getPrimaryKeyName()];
+    }
+
 }

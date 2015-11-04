@@ -31,8 +31,8 @@ class ResourceBagTest extends PHPUnit_Framework_TestCase {
   {
     $simple = $this->resourceBag->fetchSimple();
 
-    $this->assertArrayHasKey('simple_relationship', $simple);
-    $this->assertEquals(5, $simple['simple_relationship']);
+    $this->assertArrayHasKey('simple_item', $simple);
+    $this->assertEquals(2, $simple['simple_item']);
   }
 
   public function testContainsLinks()
@@ -57,8 +57,8 @@ class ResourceBagTest extends PHPUnit_Framework_TestCase {
   {
     $embedded = $this->resourceBag->fetchEmbedded();
 
-    $this->assertArrayHasKey('test', $embedded);
-    $this->assertEquals(9, $embedded['test']['id']);
+    $this->assertArrayHasKey('test_item', $embedded);
+    $this->assertEquals(5, $embedded['test_item']['id']);
   }
 
 }

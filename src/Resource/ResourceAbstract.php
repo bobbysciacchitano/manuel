@@ -74,4 +74,11 @@ abstract class ResourceAbstract {
      */
     abstract public function create(SerializerAbstract $serializer);
 
+    /**
+     * Retrieve resource IDs based on primary key value.
+     *
+     * @return mixed
+     */
+    abstract public function identifiers();
+
 }

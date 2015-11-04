@@ -17,14 +17,15 @@ class ManagerTest extends PHPUnit_Framework_TestCase {
     $payload = $manager->translate(new \Manuel\Resource\Item($data, new DummyTransformer));
 
     $expected = array(
-      'id' => 1,
-      'value_1' => 'value_1',
-      'value_2' => 'value_2',
-      'simple_relationship' => 5,
-      'test'    => array('id' => 9, 'value_1' => 'value_1', 'value_2' => 'value_2'),
-      'links'   => array(
-        'simple_linked' => '/customer/1/testing'
-      )
+      'id'   => 1,
+      'test' => 'data_1',
+      'simple_item' => 2,
+      'simple_collection' => [3, 4],
+      'test_item' => array('id' => 5, 'test' => 'data_5'),
+      'test_collection' => array(
+        array('id' => 6, 'test' => 'data_6'),
+        array('id' => 7, 'test' => 'data_7')),
+      'links' => array('simple_linked' => '/customer/1/testing')
     );
 
     $this->assertEquals($expected, $payload);
@@ -44,20 +45,26 @@ class ManagerTest extends PHPUnit_Framework_TestCase {
     $expected = array(
       array(
         'id' => 1,
-        'value_1' => 'value_1',
-        'value_2' => 'value_2',
-        'simple_relationship' => 5,
-        'test'    => array('id' => 9, 'value_1' => 'value_1', 'value_2' => 'value_2'),
+        'test' => 'data_1',
+        'simple_item' => 2,
+        'simple_collection' => [3, 4],
+        'test_item' => array('id' => 5, 'test' => 'data_5'),
+        'test_collection' => array(
+          array('id' => 6, 'test' => 'data_6'),
+          array('id' => 7, 'test' => 'data_7')),
         'links'   => array('simple_linked' => '/customer/1/testing')
       ),
       array(
         'id' => 2,
-        'value_1' => 'value_1',
-        'value_2' => 'value_2',
-        'simple_relationship' => 5,
-        'test'    => array('id' => 9, 'value_1' => 'value_1', 'value_2' => 'value_2'),
-        'links'   => array('simple_linked' => '/customer/1/testing'),
-      )
+        'test' => 'data_2',
+        'simple_item' => 2,
+        'simple_collection' => [3, 4],
+        'test_item' => array('id' => 5, 'test' => 'data_5'),
+        'test_collection' => array(
+          array('id' => 6, 'test' => 'data_6'),
+          array('id' => 7, 'test' => 'data_7')),
+        'links'   => array('simple_linked' => '/customer/1/testing')
+      ),
     );
 
     $this->assertEquals($expected, $payload);
@@ -76,24 +83,26 @@ class ManagerTest extends PHPUnit_Framework_TestCase {
         'id' => 1,
         'type' => 'test',
         'attributes' => array(
-          'value_1' => 'value_1',
-          'value_2' => 'value_2'
+          'test' => 'data_1'
         ),
         'relationships' => array(
-          'simple_relationship' => array(
+          'simple_item' => array(
+            'data' => array('id' => 2, 'type' => 'simple_item')
+          ),
+          'simple_collection' => array(
             'data' => array(
-              'id' => 5,
-              'type' => 'simple_relationship'
+              array('id' => 3, 'type' => 'simple_collection'),
+              array('id' => 4, 'type' => 'simple_collection'))
+          ),
+          'test_item' => array(
+            'data' => array(
+              'id' => 5, 'type' => 'test_embedded', 'attributes' => array('test' => 'data_5')
             )
           ),
-          'test' => array(
+          'test_collection' => array(
             'data' => array(
-              'id' => 9,
-              'type' => 'test_embedded',
-              'attributes' => array(
-                'value_1' => 'value_1',
-                'value_2' => 'value_2'
-              )
+              array('id' => 6, 'type' => 'test_embedded', 'attributes' => array('test' => 'data_6')),
+              array('id' => 7, 'type' => 'test_embedded', 'attributes' => array('test' => 'data_7')),
             )
           ),
           'simple_linked' => array(

@@ -49,7 +49,8 @@ class ResourceBag {
         if (
           $this->transformer->getRelationships() ||
           $this->transformer->getLinkedResources() ||
-          $this->transformer->getEmbeddedResources()
+          $this->transformer->getEmbeddedResources() ||
+          $this->transformer->getIncludedResources()
         ) {
             return true;
         }
@@ -145,6 +146,39 @@ class ResourceBag {
             $data = $this->transformer->{$methodName}($this->data)->create($this->serializer);
 
             $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->embedded($data, $resource);
+        }
+
+        return $resources;
+    }
+
+    /**
+     * Returns true if item contains any resources that should be sideloaded.
+     *
+     * @return boolean
+     */
+    public function containsIncludes()
+    {
+        if ($this->transformer->getIncludedResources()) {
+            return true;
+        }
+    }
+
+    /**
+     * Returns an array of sideloadable relationships.
+     *
+     * @return array
+     */
+    public function fetchIncludes()
+    {
+        $resources = array();
+
+        foreach ($this->transformer->getIncludedResources() as $key => $resource) {
+
+            $methodName = $this->camelizeString('include', $resource);
+
+            $data = $this->transformer->{$methodName}($this->data)->create($this->serializer);
+
+            $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->include($data, $resource);
         }
 
         return $resources;

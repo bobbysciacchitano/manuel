@@ -21,4 +21,21 @@ class Collection extends ResourceAbstract {
         return $resources;
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function identifiers()
+    {
+        $resources = array();
+
+        foreach ($this->data as $data) {
+
+            $resource = new Item($data, $this->transformer, $this->resourceKey);
+
+            $resources[] = $resource->identifiers();
+        }
+
+        return $resources;
+    }
+
 }

@@ -6,9 +6,14 @@ use Manuel\Helper\ResourceBag;
 class SerializerAbstract {
 
     /**
-     * @return string
+     * @var string
      */
     protected $resourceKey;
+
+    /**
+     * @var array
+     */
+    protected $includes = array();
 
     /**
      * Serialize a base item into a resource.
@@ -59,6 +64,18 @@ class SerializerAbstract {
     }
 
     /**
+     * Serialize a included resource into a object.
+     *
+     * @param string $data
+     * @param string $resourceKey
+     * @return array
+     */
+    public function sideload($data, $resourceKey = null)
+    {
+        return $data;
+    }
+
+    /**
      * Serialize a simple relationship.
      *
      * @param string $data
@@ -84,7 +101,8 @@ class SerializerAbstract {
 
         $embedded = array_merge(
             $resourceBag->fetchSimple(),
-            $resourceBag->fetchEmbedded()
+            $resourceBag->fetchEmbedded(),
+            $resourceBag->fetchIncludes()
         );
 
         if ($resourceBag->containsLinks()) {
@@ -98,11 +116,10 @@ class SerializerAbstract {
      * Wrap base payload and sideloaded includes.
      *
      * @param array $data
-     * @param array $includes
      * @param string $resourceKey
      * @return array
      */
-    public function payload(array $data, $includes = array(), $resourceKey = null)
+    public function payload(array $data, $resourceKey = null)
     {
         $payload = array();
 
@@ -112,8 +129,8 @@ class SerializerAbstract {
           $payload = $data;
         }
 
-        if ($includes) {
-          foreach ($includes as $include) {
+        if ($this->includes) {
+          foreach ($this->includes as $include) {
             $payload[] = $include;
           }
         }

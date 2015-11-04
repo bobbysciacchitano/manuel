@@ -28,6 +28,11 @@ abstract class TransformerAbstract {
     protected $embeddedResources = array();
 
     /**
+     * @var array
+     */
+    protected $includedResources = array();
+
+    /**
      * Return the primary key for the data array.
      *
      * @return string
@@ -75,6 +80,16 @@ abstract class TransformerAbstract {
     public function getEmbeddedResources()
     {
         return $this->embeddedResources;
+    }
+
+    /**
+     * Return an array of resources that should be sideloaded.
+     *
+     * @return array
+     */
+    public function getIncludedResources()
+    {
+        return $this->includedResources;
     }
 
 }

@@ -32,7 +32,7 @@ class Manager {
     {
         $resource = $resource->create($this->serializer);
 
-        return $this->serializer->payload($resource, null, $resourceKey);
+        return $this->serializer->payload($resource, $resourceKey);
     }
 
 }
