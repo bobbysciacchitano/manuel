@@ -143,9 +143,13 @@ class ResourceBag {
 
             $methodName = $this->camelizeString('embedded', $resource);
 
-            $data = $this->transformer->{$methodName}($this->data)->create($this->serializer);
+            $transformer = $this->transformer->{$methodName}($this->data);
 
-            $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->embedded($data, $resource);
+            if ($transformer) {
+                $data = $transformer->create($this->serializer);
+
+                $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->embedded($data, $resource);
+            }
         }
 
         return $resources;
@@ -199,16 +203,19 @@ class ResourceBag {
 
           $methodName = $this->camelizeString('include', $resource);
 
-          $item = $this->transformer->{$methodName}($this->data);
-          $data = $item->create($this->serializer);
+          $transformer = $this->transformer->{$methodName}($this->data);
+          
+          if ($transformer) {
+            $data = $item->create($this->serializer);
 
-          if ($group) {
-            $resources[!is_numeric($key) ? $key : $resource] = $data;
-          } else {
-            if($item->returnsCollection()) {
-              $resources = array_merge($resources, $data);
+            if ($group) {
+                $resources[!is_numeric($key) ? $key : $resource] = $data;
             } else {
-              $resources[] = $data;
+                if($item->returnsCollection()) {
+                    $resources = array_merge($resources, $data);
+                } else {
+                    $resources[] = $data;
+                }
             }
           }
       }
