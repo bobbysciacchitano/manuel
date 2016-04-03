@@ -181,9 +181,11 @@ class ResourceBag {
             $methodName = $this->camelizeString('include', $resource);
 
             $item = $this->transformer->{$methodName}($this->data);
-            $data = $item->identifiers($this->serializer);
+            if ($item) {
+                $data = $item->identifiers($this->serializer);
 
-            $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->sideload($data, $item->getTransformer()->getTypeKey());
+                $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->sideload($data, $item->getTransformer()->getTypeKey());
+            }
         }
 
         return $resources;
@@ -203,9 +205,9 @@ class ResourceBag {
 
           $methodName = $this->camelizeString('include', $resource);
 
-          $transformer = $this->transformer->{$methodName}($this->data);
-          
-          if ($transformer) {
+          $item = $this->transformer->{$methodName}($this->data);
+
+          if ($item) {
             $data = $item->create($this->serializer);
 
             if ($group) {
