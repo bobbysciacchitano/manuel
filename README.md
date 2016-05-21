@@ -187,7 +187,7 @@ This type of resource will be included along side the main resource and referenc
    */
   public function includeTestItem($data)
   {
-    return new Item($data->item), new Transformer);
+    return new Item($data->item, new Transformer);
   }
 
   /**
