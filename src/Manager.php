@@ -13,7 +13,6 @@ class Manager {
     /**
      * Create a new manager for seriaializing and translating objects.
      *
-     * @param ResourceAbstract $resource
      * @param SerializerAbstract $serializer
      */
     public function __construct(SerializerAbstract $serializer)
