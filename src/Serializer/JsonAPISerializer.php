@@ -47,7 +47,7 @@ class JsonAPISerializer extends SerializerAbstract {
 
             return array('data' => $resources);
         } else {
-            return array('data' => array('id' => $data, 'type' => $resourceKey));
+            return $data ? array('data' => array('id' => $data, 'type' => $resourceKey)) : array('data' => null);
         }
     }
 
@@ -56,7 +56,7 @@ class JsonAPISerializer extends SerializerAbstract {
      */
     public function embedded($data, $resourceKey = null)
     {
-      return array('data' => $data);
+        return array('data' => $data);
     }
 
     /**
@@ -91,13 +91,13 @@ class JsonAPISerializer extends SerializerAbstract {
      */
     public function payload(array $data, $resourceKey = null)
     {
-      $payload = array('data' => $data);
+        $payload = array('data' => $data);
 
-      if ($this->includes) {
-        $payload['included'] = $this->includes;
-      }
+        if ($this->includes) {
+            $payload['included'] = $this->includes;
+        }
 
-      return $payload;
+        return $payload;
     }
 
 }
