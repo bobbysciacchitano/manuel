@@ -14,7 +14,7 @@ class DummyTransformer extends TransformerAbstract {
   /**
    * @inheritdoc
    */
-  protected $relationships = [ 'simple_item', 'simple_collection' ];
+  protected $relationships = [ 'simple_item', 'simple_collection', 'relation_returns_null' ];
 
   /**
    * @inheritdoc
@@ -118,5 +118,10 @@ class DummyTransformer extends TransformerAbstract {
 
     return new Collection($items, new DummyEmbeddedTransformer);
   }
+
+    public function relationshipRelationReturnsNull($data)
+    {
+        return null;
+    }
 
 }

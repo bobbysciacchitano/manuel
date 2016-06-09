@@ -23,7 +23,7 @@ class TransformerTest extends PHPUnit_Framework_TestCase {
   {
     $transformer = new DummyTransformer;
 
-    $this->assertEquals(array('simple_item', 'simple_collection'), $transformer->getRelationships());
+    $this->assertEquals(array('simple_item', 'simple_collection', 'relation_returns_null'), $transformer->getRelationships());
   }
 
   public function testLinkedResources()

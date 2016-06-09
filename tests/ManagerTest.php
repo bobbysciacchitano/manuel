@@ -28,7 +28,8 @@ class ManagerTest extends PHPUnit_Framework_TestCase {
           array('id' => 7, 'test' => 'data_7')),
         'sideload_item' => 8,
         'sideload_collection' => [9, 10],
-        'links' => array('simple_linked' => '/customer/1/testing')
+        'links' => array('simple_linked' => '/customer/1/testing'),
+        'relation_returns_null' => null
       ),
       'sideload_item' => array('id' => 8, 'test' => 'data_8'),
       'sideload_collection' => array(
@@ -62,7 +63,8 @@ class ManagerTest extends PHPUnit_Framework_TestCase {
           array('id' => 7, 'test' => 'data_7')),
         'sideload_item' => 8,
         'sideload_collection' => [9, 10],
-        'links'   => array('simple_linked' => '/customer/1/testing')
+        'links'   => array('simple_linked' => '/customer/1/testing'),
+        'relation_returns_null' => null
       ),
       array(
         'id' => 2,
@@ -75,7 +77,8 @@ class ManagerTest extends PHPUnit_Framework_TestCase {
           array('id' => 7, 'test' => 'data_7')),
         'sideload_item' => 8,
         'sideload_collection' => [9, 10],
-        'links'   => array('simple_linked' => '/customer/1/testing')
+        'links'   => array('simple_linked' => '/customer/1/testing'),
+        'relation_returns_null' => null
       ),
     ),
     'sideload_item' => array('id' => 8, 'test' => 'data_8'),
@@ -135,7 +138,8 @@ class ManagerTest extends PHPUnit_Framework_TestCase {
             'links' => array(
               'related' => '/customer/1/testing'
             )
-          )
+          ),
+          'relation_returns_null' => array('data' => null),
         )
       ),
       'included' => array(
