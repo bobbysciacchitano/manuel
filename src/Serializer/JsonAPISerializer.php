@@ -18,7 +18,7 @@ class JsonAPISerializer extends SerializerAbstract {
 
         unset($resource['attributes']['id']);
 
-        foreach ($transformer->getRelationships() as $relationship) {
+        foreach (array_keys($transformer->getRelationships()) as $relationship) {
             unset($resource['attributes'][$relationship]);
         }
 
@@ -72,7 +72,7 @@ class JsonAPISerializer extends SerializerAbstract {
      */
     public function relationships(ResourceBag $resourceBag)
     {
-        if (!$resourceBag->containsRelationships()) {
+        if (!$resourceBag->containsResources()) {
             return array();
         }
 

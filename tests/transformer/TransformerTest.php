@@ -5,39 +5,52 @@ require_once __DIR__ . '/../mocks/DummyEmbeddedTransformer.php';
 
 class TransformerTest extends PHPUnit_Framework_TestCase {
 
-  public function testPrimaryKey()
-  {
-    $transformer = new DummyTransformer;
+    public function setUp()
+    {
+        $this->transformer = new DummyTransformer();
+        $this->transformer->defineResources(array());
+    }
 
-    $this->assertEquals('id', $transformer->getPrimaryKeyName());
-  }
+    public function testPrimaryKey()
+    {
+        $transformer = new DummyTransformer;
 
-  public function testTypeKey()
-  {
-    $transformer = new DummyTransformer;
+        $this->assertEquals('id', $transformer->getPrimaryKeyName());
+    }
 
-    $this->assertEquals('test', $transformer->getTypeKey());
-  }
+    public function testTypeKey()
+    {
+        $transformer = new DummyTransformer;
 
-  public function testRelationships()
-  {
-    $transformer = new DummyTransformer;
+        $this->assertEquals('test', $transformer->getTypeKey());
+    }
 
-    $this->assertEquals(array('simple_item', 'simple_collection', 'relation_returns_null'), $transformer->getRelationships());
-  }
+    public function testRelationships()
+    {
+        $actual = array_keys($this->transformer->getRelationships());
 
-  public function testLinkedResources()
-  {
-    $transformer = new DummyTransformer;
+        $this->assertEquals(array('simple_item', 'simple_collection', 'relation_returns_null'), $actual);
+    }
 
-    $this->assertEquals(array('simple_linked'), $transformer->getLinkedResources());
-  }
+    public function testLinkedResources()
+    {
+        $actual = array_keys($this->transformer->getLinkedResources());
 
-  public function testEmbeddedResources()
-  {
-    $transformer = new DummyTransformer;
+        $this->assertEquals(array('simple_linked'), $actual);
+    }
 
-    $this->assertEquals(array('test_item', 'test_collection'), $transformer->getEmbeddedResources());
-  }
+    public function testEmbeddedResources()
+    {
+        $actual = array_keys($this->transformer->getEmbeddedResources());
+
+        $this->assertEquals(array('test_item', 'test_collection'), $actual);
+    }
+
+    public function testSideloadedResources()
+    {
+        $actual = array_keys($this->transformer->getIncludedResources());
+
+        $this->assertEquals(array('sideload_item', 'sideload_collection'), $actual);
+    }
 
 }

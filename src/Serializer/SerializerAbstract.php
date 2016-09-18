@@ -95,7 +95,7 @@ class SerializerAbstract {
      */
     public function relationships(ResourceBag $resourceBag)
     {
-        if (!$resourceBag->containsRelationships()) {
+        if (!$resourceBag->containsResources()) {
             return array();
         }
 

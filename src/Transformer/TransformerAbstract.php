@@ -53,7 +53,7 @@ abstract class TransformerAbstract {
     }
 
     /**
-     * Return an array of simple relationship names for thie resource.
+     * Return an array of simple relationship names for this resource.
      *
      * @return array
      */
@@ -90,6 +90,61 @@ abstract class TransformerAbstract {
     public function getIncludedResources()
     {
         return $this->includedResources;
+    }
+
+    /**
+     * Define resources to be included in serialization.
+     *
+     * @param $data
+     */
+    public function defineResources($data)
+    {
+
+    }
+
+    /**
+     * Add a simple identifier or relationship resource.
+     *
+     * @param string $name
+     * @param mixed $data
+     */
+    public function addRelationship($name, $data)
+    {
+        $this->relationships[$name] = $data;
+    }
+
+    /**
+     * Add link resource to serialization structure.
+     *
+     * @param string $name
+     * @param string $link
+     * @return $this
+     */
+    public function addLink($name, $link)
+    {
+        $this->linkedResources[$name] = $link;
+
+        return $this;
+    }
+
+    /**
+     * Add resource to serialization structure and define whether resource should be
+     * treated as a sideload.
+     *
+     * @param string $name
+     * @param mixed $resource
+     * @param bool $sideload
+     * @return $this
+     */
+    public function addResource($name, $resource, $sideload = false)
+    {
+        if ($sideload) {
+            $this->includedResources[$name] = $resource;
+        } else {
+            $this->embeddedResources[$name] = $resource;
+        }
+
+        return $this;
     }
 
 }
