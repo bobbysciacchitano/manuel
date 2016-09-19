@@ -40,7 +40,10 @@ class ResourceBag {
         $this->serializer  = $serializer;
 
         $this->transformer = $transformer;
-        $this->transformer->defineResources($data);
+
+        if (method_exists($transformer, 'resources')) {
+            $this->transformer->resources($data);
+        }
     }
 
     /**

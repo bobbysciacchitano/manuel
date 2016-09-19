@@ -43,7 +43,7 @@ class MyTransformer extends TransformerAbstract {
      *
      * @param TheObject $myObject
      */
-    public function defineResources(TheObject $myObject)
+    public function resources(TheObject $myObject)
     {
         $this->addLink("/customer/{$myObject->id}/tasks");
 
@@ -117,20 +117,17 @@ Much like simple relationships, this type of resource can be used to create a li
 Much like simple relationships, embedded resources can be used to nest another resource within the resource tree. Embedded resources can be either a ```Collection``` or ```Item``` and the serializer will attempt to serialize all relationships underneath.
 
 ```php
-<?php
-
     /**
      * Define other resources to be included in transformation.
      *
      * @param TheObject $myObject
      */
-    public function defineResources(TheObject $myObject)
+    public function resources(TheObject $myObject)
     {
         $this->addResource('test_item', new Item($data->item, new Transformer));
 
         $this->addResource('test_collection', new Collection($data->items, new Transformer));
     }
-
 ```
 
 **Sideloaded Resources**
@@ -138,20 +135,17 @@ Much like simple relationships, embedded resources can be used to nest another r
 This type of resource will be included along side the main resource and references to the resource identifiers can be loaded as part of the relationship serialization.
 
 ```php
-<?php
-
     /**
      * Define other resources to be included in transformation.
      *
      * @param TheObject $myObject
      */
-    public function defineResources(TheObject $myObject)
+    public function resources(TheObject $myObject)
     {
         $this->addResource('test_item', new Item($data->item, new Transformer), true);
 
         $this->addResource('test_collection', new Collection($data->items, new Transformer), true);
     }
-
 ```
 #### Serializers
 

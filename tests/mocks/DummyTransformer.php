@@ -30,7 +30,7 @@ class DummyTransformer extends TransformerAbstract {
      *
      * @param $data
      */
-    public function defineResources($data)
+    public function resources($data)
     {
         // Test Simple
         $this->addRelationship('simple_item', 2);

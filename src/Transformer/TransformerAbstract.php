@@ -93,16 +93,6 @@ abstract class TransformerAbstract {
     }
 
     /**
-     * Define resources to be included in serialization.
-     *
-     * @param $data
-     */
-    public function defineResources($data)
-    {
-
-    }
-
-    /**
      * Add a simple identifier or relationship resource.
      *
      * @param string $name

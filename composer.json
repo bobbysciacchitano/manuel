@@ -1,7 +1,7 @@
 {
     "name": "bobbysciacchitano/manuel",
     "description": "A simple object serializer for PHP which supports flexible document structures.",
-    "keywords": ["JsonAPI", "transformer", "serializer", "formatter", "json", "encoder"],
+    "keywords": ["JsonAPI", "transformer", "serializer", "formatter", "json", "encoder", "data mapper", "mapper"],
     "homepage": "https://github.com/bobbysciacchitano/manuel",
     "license": "MIT",
     "type": "library",

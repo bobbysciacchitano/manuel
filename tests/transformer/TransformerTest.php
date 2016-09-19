@@ -8,7 +8,7 @@ class TransformerTest extends PHPUnit_Framework_TestCase {
     public function setUp()
     {
         $this->transformer = new DummyTransformer();
-        $this->transformer->defineResources(array());
+        $this->transformer->resources(array());
     }
 
     public function testPrimaryKey()
