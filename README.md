@@ -5,8 +5,6 @@ Manuel
 
 The easy to use PHP Serializer. Because translation shouldn't be a chore.
 
-This project was heavily inspired by PHP League's Fractal project.
-
 #### How to use
 
 To serialize an object you first need to create a transformer. Transformers must implement the transform method and return an array. Transformers can accept any type of data or object that requires serialisation.
@@ -25,16 +23,6 @@ class MyTransformer extends TransformerAbstract {
     protected $type = 'customer';
 
     /**
-     * @var array
-     */
-    protected $relationships = [ 'organisation' ];
-
-    /**
-     * @var array
-     */
-    protected $linkedResources = [ 'tasks' ];
-
-    /**
      * Transform object properties.
      *
      * @param TheObject $myObject
@@ -51,25 +39,15 @@ class MyTransformer extends TransformerAbstract {
     }
 
     /**
-     * Create link to external resource.
+     * Define other resources to be included in transformation.
      *
      * @param TheObject $myObject
-     * @return string
      */
-    public function linkedTasks(TheObject $myObject)
+    public function resources(TheObject $myObject)
     {
-        return "/customer/{$myObject->id}/tasks";
-    }
+        $this->addLink("/customer/{$myObject->id}/tasks");
 
-    /**
-     * Create a simple resource.
-     *
-     * @param TheObject $myObject
-     * @return integer
-     */
-    public function relationshipOrganisation(TheObject $myObject)
-    {
-        return (int) $myObject->organisation_id;
+        $this->addRelationship('organisation', $myObject->organisation_id);
     }
 
 }
@@ -139,33 +117,17 @@ Much like simple relationships, this type of resource can be used to create a li
 Much like simple relationships, embedded resources can be used to nest another resource within the resource tree. Embedded resources can be either a ```Collection``` or ```Item``` and the serializer will attempt to serialize all relationships underneath.
 
 ```php
-<?php
+    /**
+     * Define other resources to be included in transformation.
+     *
+     * @param TheObject $myObject
+     */
+    public function resources(TheObject $myObject)
+    {
+        $this->addResource('test_item', new Item($data->item, new Transformer));
 
-  /**
-   * @var inheritdoc
-   */
-  protected $embeddedResources = [ 'test_item', 'test_collection' ];
-
-  /**
-   *
-   * @param MyObject $data
-   * @return Item
-   */
-  public function embeddedTestItem($data)
-  {
-    return new Item($data->item), new Transformer);
-  }
-
-  /**
-   *
-   * @param MyObject $data
-   * @return Collection
-   */
-  public function embeddedTestCollection($data)
-  {
-    return new Collection($data->items, new Transformer);
-  }
-
+        $this->addResource('test_collection', new Collection($data->items, new Transformer));
+    }
 ```
 
 **Sideloaded Resources**
@@ -173,33 +135,17 @@ Much like simple relationships, embedded resources can be used to nest another r
 This type of resource will be included along side the main resource and references to the resource identifiers can be loaded as part of the relationship serialization.
 
 ```php
-<?php
+    /**
+     * Define other resources to be included in transformation.
+     *
+     * @param TheObject $myObject
+     */
+    public function resources(TheObject $myObject)
+    {
+        $this->addResource('test_item', new Item($data->item, new Transformer), true);
 
-  /**
-   * @var inheritdoc
-   */
-  protected $includedResources = [ 'test_item', 'test_collection' ];
-
-  /**
-   *
-   * @param MyObject $data
-   * @return Item
-   */
-  public function includeTestItem($data)
-  {
-    return new Item($data->item, new Transformer);
-  }
-
-  /**
-   *
-   * @param MyObject $data
-   * @return Collection
-   */
-  public function includeTestCollection($data)
-  {
-    return new Collection($data->items, new Transformer);
-  }
-
+        $this->addResource('test_collection', new Collection($data->items, new Transformer), true);
+    }
 ```
 #### Serializers
 

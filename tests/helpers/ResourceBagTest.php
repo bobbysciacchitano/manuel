@@ -19,7 +19,7 @@ class ResourceBagTest extends PHPUnit_Framework_TestCase {
 
   public function testCanLoadResources()
   {
-    $this->assertTrue($this->resourceBag->containsRelationships());
+    $this->assertTrue($this->resourceBag->containsResources());
   }
 
   public function testContainsSimple()

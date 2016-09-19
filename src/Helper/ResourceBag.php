@@ -1,5 +1,6 @@
 <?php namespace Manuel\Helper;
 
+use Manuel\Resource\ResourceAbstract;
 use Manuel\Serializer\SerializerAbstract;
 use Manuel\Transformer\TransformerAbstract;
 
@@ -36,8 +37,13 @@ class ResourceBag {
     public function __construct($data, TransformerAbstract $transformer, SerializerAbstract $serializer)
     {
         $this->data = $data;
-        $this->transformer = $transformer;
         $this->serializer  = $serializer;
+
+        $this->transformer = $transformer;
+
+        if (method_exists($transformer, 'resources')) {
+            $this->transformer->resources($data);
+        }
     }
 
     /**
@@ -45,7 +51,7 @@ class ResourceBag {
      *
      * @return boolean
      */
-    public function containsRelationships() {
+    public function containsResources() {
         if (
           $this->transformer->getRelationships() ||
           $this->transformer->getLinkedResources() ||
@@ -78,10 +84,7 @@ class ResourceBag {
         $resources = array();
 
         foreach ($this->transformer->getRelationships() as $key => $resource) {
-
-            $methodName = $this->camelizeString('relationship', !is_numeric($key) ? $key : $resource);
-
-            $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->simple($this->transformer->{$methodName}($this->data), $resource);
+            $resources[$key] = $this->serializer->simple($resource, $key);
         }
 
         return $resources;
@@ -109,10 +112,7 @@ class ResourceBag {
         $resources = array();
 
         foreach ($this->transformer->getLinkedResources() as $key => $resource) {
-
-            $methodName = $this->camelizeString('linked', $resource);
-
-            $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->link($this->transformer->{$methodName}($this->data), $resource);
+            $resources[$key] = $this->serializer->link($resource, $key);
         }
 
         return $resources;
@@ -141,15 +141,13 @@ class ResourceBag {
 
         foreach ($this->transformer->getEmbeddedResources() as $key => $resource) {
 
-            $methodName = $this->camelizeString('embedded', $resource);
-
-            $transformer = $this->transformer->{$methodName}($this->data);
-
-            if ($transformer) {
-                $data = $transformer->create($this->serializer);
-
-                $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->embedded($data, $resource);
+            if ($resource instanceof ResourceAbstract) {
+                $data = $resource->create($this->serializer);
+            } else {
+                $data = $resource;
             }
+
+            $resources[$key] = $this->serializer->embedded($data, $key);
         }
 
         return $resources;
@@ -177,14 +175,10 @@ class ResourceBag {
         $resources = array();
 
         foreach ($this->transformer->getIncludedResources() as $key => $resource) {
+            if ($resource instanceof ResourceAbstract) {
+                $data = $resource->identifiers($this->serializer);
 
-            $methodName = $this->camelizeString('include', $resource);
-
-            $item = $this->transformer->{$methodName}($this->data);
-            if ($item) {
-                $data = $item->identifiers($this->serializer);
-
-                $resources[!is_numeric($key) ? $key : $resource] = $this->serializer->sideload($data, $item->getTransformer()->getTypeKey());
+                $resources[$key] = $this->serializer->sideload($data, $resource->getTransformer()->getTypeKey());
             }
         }
 
@@ -202,40 +196,25 @@ class ResourceBag {
       $resources = array();
 
       foreach ($this->transformer->getIncludedResources() as $key => $resource) {
+          if ($resource instanceof ResourceAbstract) {
+              $data = $resource->create($this->serializer);
 
-          $methodName = $this->camelizeString('include', $resource);
+              if ($group) {
+                  $resources[!is_numeric($key) ? $key : $resource] = $data;
+              } else {
+                  if($resource->returnsCollection()) {
+                      $resources = array_merge($resources, $data);
+                  } else {
+                      $resources[] = $data;
+                  }
+              }
+          } else {
 
-          $item = $this->transformer->{$methodName}($this->data);
-
-          if ($item) {
-            $data = $item->create($this->serializer);
-
-            if ($group) {
-                $resources[!is_numeric($key) ? $key : $resource] = $data;
-            } else {
-                if($item->returnsCollection()) {
-                    $resources = array_merge($resources, $data);
-                } else {
-                    $resources[] = $data;
-                }
-            }
           }
+
       }
 
       return $resources;
-    }
-
-    /**
-     * Return a camelized string reference to a method that should
-     * be loaded from the item.
-     *
-     * @param string $key
-     * @param string $resource
-     * @return string
-     */
-    private function camelizeString($type, $resource)
-    {
-        return $type . implode('', array_map('ucfirst', array_map('strtolower', preg_split('/[\s_-]/', $resource))));
     }
 
 }
