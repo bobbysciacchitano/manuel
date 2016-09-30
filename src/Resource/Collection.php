@@ -16,9 +16,10 @@ class Collection extends ResourceAbstract {
     {
         $resources = array();
 
-        foreach ($this->data as $data) {
+        $transformerClass = get_class($this->transformer);
 
-            $resource = new Item($data, $this->transformer, $this->resourceKey);
+        foreach ($this->data as $data) {
+            $resource = new Item($data, new $transformerClass, $this->resourceKey);
 
             $resources[] = $resource->create($serializer);
         }
@@ -34,7 +35,6 @@ class Collection extends ResourceAbstract {
         $resources = array();
 
         foreach ($this->data as $data) {
-
             $resource = new Item($data, $this->transformer, $this->resourceKey);
 
             $resources[] = $resource->identifiers();
