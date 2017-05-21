@@ -10,6 +10,11 @@ class Item extends ResourceAbstract {
      */
     public function create(SerializerAbstract $serializer)
     {
+        // If data is empty, do nothing.
+        if (!$this->data) {
+            return null;
+        }
+
         // Create a new Resource bag for transforming relationships.
         $resourceBag = new ResourceBag($this->data, $this->transformer, $serializer);
 
